@@ -53,7 +53,7 @@ async function main() {
     row.innerHTML += `
       <td class="ant-table-cell align-right"><div>${score}</div></td>`;
   })
-  const mentor = summary.data.mentor.githubId;
+  const mentor = summary.data.mentor?.githubId;
   const mentorName = mentor ? mentor : '';
   row.innerHTML += `
   <td class="ant-table-cell">2022-08-03</td>
