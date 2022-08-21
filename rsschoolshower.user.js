@@ -1,9 +1,13 @@
 // ==UserScript==
 // @name         RSSchool score shower
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Show your score in first row of score
 // @author       Andronio
+// @homepage     https://github.com/Andronio2/RSScool-score-shower
+// @supportURL   https://github.com/Andronio2/RSScool-score-shower/issues
+// @updateURL    https://raw.githubusercontent.com/Andronio2/RSScool-score-shower/main/rsschoolshower.user.js
+// @downloadURL  https://raw.githubusercontent.com/Andronio2/RSScool-score-shower/main/rsschoolshower.user.js
 // @match        https://app.rs.school/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rs.school
 // @grant        none
