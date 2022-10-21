@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RSSchool score shower
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Show your score in first row of score
 // @author       Andronio
 // @homepage     https://github.com/Andronio2/RSScool-score-shower
@@ -39,14 +39,22 @@
     }
 
     async function main() {
-        const myCourse = window.__NEXT_DATA__.props.pageProps.course // Текущий курс
-        ? window.__NEXT_DATA__.props.pageProps.course.id
-        : window.__NEXT_DATA__.props.pageProps.courses.filter((el) => !el.completed)[0].id;
 
         const getURL = async (url) =>
         fetch(url, {
             credentials: 'include',
         }).then((resp) => resp.json());
+
+        let myCourse;
+
+        if (window.__NEXT_DATA__.props.pageProps.course) { // Текущий курс
+            myCourse = window.__NEXT_DATA__.props.pageProps.course.id;
+        } else {
+            const query = location.search;
+            const urlStr = 'https://app.rs.school/_next/data/N8wXVQ5r_nL1GlApKOPoE/course/score.json' + query;
+            const course = await getURL(urlStr);
+            myCourse = course.pageProps.course.id;
+        }
 
         const man = await getURL('https://app.rs.school/api/session');
         const user = man.data.githubId;
@@ -67,7 +75,7 @@
   <td class="ant-table-cell ant-table-cell-fix-left" style="position: sticky; left: 0px;">${summary.data.rank}</td>
   <td class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last" style="position: sticky; left: 50px;">
     <div><span class="ant-avatar ant-avatar-circle ant-avatar-image" style="width: 24px; height: 24px; line-height: 24px; font-size: 18px;">
-        <img src="https://cdn.rs.school/${user}.png?size=48"></span>&nbsp;
+        <img src="https://cdn.rs.school/avatars/${user}.png?size=48"></span>&nbsp;
       <a target="_blank" href="https://github.com/${user}">${user}</a>
     </div>
   </td>
@@ -93,7 +101,7 @@
             row.innerHTML += `
       <td class="ant-table-cell align-right"><div>${score}</div></td>`;
         })
-        const mentor = summary.data.mentor.githubId;
+        const mentor = summary.data.mentor?.githubId;
         const mentorName = mentor ? mentor : '';
         row.innerHTML += `
   <td class="ant-table-cell">2022-08-03</td>
